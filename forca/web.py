@@ -36,6 +36,9 @@ async def security_headers(request: Request, call_next):
     )
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
+    # Só com HTTPS configurado: o navegador passa a recusar HTTP para este domínio.
+    if config.BASE_URL.startswith("https://"):
+        response.headers["Strict-Transport-Security"] = "max-age=31536000"
     if request.url.path.startswith("/api/"):
         response.headers["Cache-Control"] = "no-store"
     return response
