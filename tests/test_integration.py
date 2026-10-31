@@ -740,7 +740,8 @@ def test_soft_cap_and_mute(env):
 def test_month_close_accrues_interest_once(env):
     with db.tx() as c:
         c.execute(
-            "INSERT INTO debts (name, balance_cents, monthly_rate, min_payment_cents) VALUES ('D', 100000, 10, 0)"
+            "INSERT INTO debts (name, balance_cents, monthly_rate, min_payment_cents, created_at)"
+            " VALUES ('D', 100000, 10, 0, '2026-10-01 12:00:00')"
         )
         db.set_setting(c, "started_month", "2026-11")
     sent = []
