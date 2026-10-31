@@ -1,0 +1,4 @@
+# Bloco para um Caddy que já roda no servidor, na mesma rede Docker do container.
+financas.exemplo.com {
+    reverse_proxy forca-app:8000
+}

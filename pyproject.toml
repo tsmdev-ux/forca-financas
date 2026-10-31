@@ -1,0 +1,25 @@
+[project]
+name = "forca"
+version = "1.0.0"
+description = "Organização financeira pessoal em torno de um número: quanto você pode gastar hoje."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["forca/static"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF"]
+ignore = [
+    "E501",    # textos em português ficam em uma linha só para serem encontrados por busca
+    "B008",    # File(...) como valor padrão é o padrão do FastAPI
+    "RUF001",  # o caractere − é o sinal de menos tipográfico, de propósito
+    "RUF002",
+    "RUF003",
+]

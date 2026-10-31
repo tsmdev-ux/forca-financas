@@ -1,0 +1,23 @@
+# O container não publica porta: um proxy reverso (ver deploy/Caddyfile.example)
+# cuida do HTTPS e alcança o app pela rede externa FORCA_EDGE_NETWORK.
+services:
+  app:
+    build: .
+    container_name: forca-app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      FORCA_BASE_URL: https://${FORCA_DOMAIN}
+    volumes:
+      - ./data:/data
+    mem_limit: 1g
+    networks:
+      - edge
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+networks:
+  edge:
+    external: true
+    name: ${FORCA_EDGE_NETWORK:?defina FORCA_EDGE_NETWORK no .env}
