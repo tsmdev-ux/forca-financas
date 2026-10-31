@@ -19,3 +19,18 @@ jobs:
       - run: ruff check forca tests scripts
       - run: ruff format --check forca tests scripts
       - run: pytest --cov=forca --cov-report=term
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t forca .
+      - name: O container sobe e responde
+        run: |
+          docker run -d --name forca -e FORCA_PASSWORD=teste forca
+          for _ in $(seq 1 30); do
+            docker exec forca python -c "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/manifest.webmanifest', timeout=2)" && exit 0
+            sleep 2
+          done
+          docker logs forca
+          exit 1
